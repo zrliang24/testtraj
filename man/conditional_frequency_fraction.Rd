@@ -15,19 +15,23 @@ conditional_frequency_fraction(
 )
 }
 \arguments{
-\item{traj}{dataframe of trajectory points}
+\item{traj}{Data frame of trajectory points}
 
-\item{coordinates}{vector of latlon coordinates associated with trajectories}
+\item{coordinates}{Vector of latlon coordinates associated with trajectories}
 
-\item{gritty}{blank grid of the extent of trajectories}
+\item{gritty}{Blank grid of the extent of trajectories}
 
-\item{siteDF}{}
+\item{siteDF}{Data frame containing the emission concentrations and
+coordinates}
 
-\item{type}{}
+\item{fraction}{Number between 0 and 1 to calculate conditional frequency
+above or below}
 
-\item{remove.outliers}{}
+\item{type}{Whether to calculate above or below the fraction}
+
+\item{remove.outliers}{Removes all points above or below the fraction.
+Default set to true.}
 }
 \description{
-Calculates conditional frequency above or below a given
-fraction
+Calculates conditional frequency above or below a given fraction
 }

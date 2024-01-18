@@ -1,19 +1,25 @@
 #' Create frequency plot
-#' 
-#' @description Calculates conditional frequency above or below a given 
-#' fraction
-#' @param traj dataframe of trajectory points
-#' @param coordinates vector of latlon coordinates associated with trajectories
-#' @param gritty blank grid of the extent of trajectories
-#' @param siteDF 
-#' @param fraction
-#' @param type 
-#' @param remove.outliers 
+#'
+#' @description Calculates conditional frequency above or below a given fraction
+#' @param traj Data frame of trajectory points
+#' @param coordinates Vector of latlon coordinates associated with trajectories
+#' @param gritty Blank grid of the extent of trajectories
+#' @param siteDF Data frame containing the emission concentrations and
+#'   coordinates
+#' @param fraction Number between 0 and 1 to calculate conditional frequency
+#'   above or below
+#' @param type Whether to calculate above or below the fraction
+#' @param remove.outliers Removes all points above or below the fraction.
+#'   Default set to true.
 #' @importFrom magrittr "%>%"
 #' @importFrom dplyr filter
+#' @importFrom sensR findcr
+#' @importFrom stats sd
+#' @importFrom stats quantile
+#' @importFrom stats median
 #'
 #' @export
-#'
+#' 
 conditional_frequency_fraction <- function(
     traj, coordinates, gritty, siteDF, fraction = 0.16, type = "above",
     remove.outliers = T) {
@@ -25,8 +31,6 @@ conditional_frequency_fraction <- function(
   
   if (remove.outliers) {
     
-    # Cutpoint set to 0.1, arbitrarily chosen for PurpleAir data
-    # cutpoint <- 0.1 # This is crap
     # Remove low end if no MDLs
     cutpoint <- median(siteDF$PM) - sd(
       subset(siteDF, PM > quantile(siteDF$PM, 0.16) &
