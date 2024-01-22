@@ -3,7 +3,8 @@
 #'  trajectory runs using specified meteorological datasets.
 #'@param lat the starting latitude (in decimal degrees) for the model run(s).
 #'@param lon the starting longitude (in decimal degrees) for the model run(s).
-#'@param out_dir a file path to where the trajectory output files will be stored
+#'@param out_dir a file path to where the trajectory output folder and files
+#'  will be stored
 #'@param height the starting height (in meters above ground level) for the model
 #'  run(s).
 #'@param duration the duration of each model run (either forward or backward) in
