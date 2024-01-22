@@ -1,8 +1,8 @@
 library(tidyverse)
 
 # This is a helper function for finding the slopes of the data at each point
-#   that will ensure that the output has a continuous second derivative.
-# It uses a linear equation derived separately
+# that will ensure that the output has a continuous second derivative. It uses a
+# linear equation derived separately
 make_slopes <- function(data){ # Generate slopes at each data point for interpolation.
   l <- length(data$tme) - 2
   mat <- matrix(rep(0, l^2), ncol=l)
