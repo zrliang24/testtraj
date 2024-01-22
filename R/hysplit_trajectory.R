@@ -702,14 +702,12 @@ hysplit_trajectory <- function(lat = 49.263,
     }
     
     # Create the output folder if it doesn't exist
-    if (!dir.exists(paste0(exec_dir, "/",
+    if (!dir.exists(paste0(out_dir, "/",
                            folder_name))) {
       dir.create(
-        path = paste0(exec_dir, "/",
+        path = paste0(out_dir, "/",
                       folder_name))
     }
-    
-    # Temporarily commenting out for testing purposes
 
 if (any(c("mac", "unix") %in% get_os())) {
   # Perform the movement of all trajectory files
@@ -740,9 +738,9 @@ if (get_os() == "win") {
     if (return_traj_df) {
       traj_df <-
         trajectory_read(output_folder =
-                          paste0(exec_dir, "/",
+                          paste0(out_dir, "/",
                                  folder_name))
-    }
+    p}
     
     if (z == 1) {
       col_names <- colnames(traj_df)
@@ -759,4 +757,3 @@ if (get_os() == "win") {
   
   return(ensemble_df)
 }
-
