@@ -46,8 +46,7 @@ conditional_frequency_fraction <- function(
     
   }
   
-  
-  # Subset traj df to only dates above cutoff
+  # Subset traj df to only dates above cutoff fraction
   lim_dates <- siteDF$date
   # trajAbr <- subset(traj, trajTime %in% round(statDF$date, units = 'hours'))
   lim_traj <- subset(traj, trajTime %in% round(lim_dates, units = 'hours'))
