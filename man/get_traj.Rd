@@ -28,23 +28,27 @@ get_traj(
 
 \item{Lon}{the starting longitude (in decimal degrees)}
 
-\item{Dir}{the direction of the trajectory model run. Options are:
-forward or backward}
+\item{Dir}{the direction of the trajectory model run. Options are: 'forward'
+or 'backward'}
 
 \item{Met}{an option to select meteorological data files. The options are
 gdas1 (Global Data Assimilation System 1-degree resolution data),
-reanalysis (NCAR/NCEP global reanalysis data),
-and narr (North American Regional Reanalysis).}
+reanalysis (NCAR/NCEP global reanalysis data), and narr (North American
+Regional Reanalysis).}
 
 \item{ExecDir}{an optional file path for the working directory of the model
-input and output files}
+input and output files.}
 
 \item{MetDir}{an optional file path to store or find existing meteorological
 data files}
 
-\item{ht}{the starting height for the model run (in meters above ground level)}
+\item{ht}{the starting height for the model run (in meters above ground
+level)}
+}
+\value{
+a dataframe of interpolated HYSPLIT trajectory points
 }
 \description{
 The function returns a data frame of interpolated HYSPLIT
-trajectories from inputs.
+trajectories
 }

@@ -29,7 +29,8 @@ hysplit_trajectory(
 
 \item{lon}{the starting longitude (in decimal degrees) for the model run(s).}
 
-\item{out_dir}{a file path to where the trajectory output files will be stored}
+\item{out_dir}{a file path to where the trajectory output folder and files
+will be stored}
 
 \item{height}{the starting height (in meters above ground level) for the model
 run(s).}

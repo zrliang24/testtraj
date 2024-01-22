@@ -28,7 +28,6 @@ conditional_frequency_fraction <- function(
   start_date <- min(traj$trajTime)
   end_date <- max(traj$trajTime)
   
-  
   if (remove.outliers) {
     
     # Remove low end if no MDLs
@@ -46,8 +45,7 @@ conditional_frequency_fraction <- function(
     
   }
   
-  
-  # Subset traj df to only dates above cutoff
+  # Subset traj df to only dates above cutoff fraction
   lim_dates <- siteDF$date
   # trajAbr <- subset(traj, trajTime %in% round(statDF$date, units = 'hours'))
   lim_traj <- subset(traj, trajTime %in% round(lim_dates, units = 'hours'))
@@ -57,8 +55,7 @@ conditional_frequency_fraction <- function(
   unrestricted <- rasterize(coords, gritty, fun = 'count')
   limited <- rasterize(lim_traj_coords, gritty, fun = 'count')
   
-  # Calculate conditional frequency (the ratio of limited to
-  # unrestricted)
+  # Calculate conditional frequency (the ratio of limited to unrestricted)
   conditional <- limited / unrestricted
   
   # Replace NA with 0 for calculating critical value
@@ -70,7 +67,6 @@ conditional_frequency_fraction <- function(
     findcr2(a, frac = fraction)})
   
   # Values of the limited set that can be considered significant
-  # Just testing > for curiosity here - shouldn't it be >=
   mask <- limited > critical
   
   # Finally, return the conditional frequency gated by the
