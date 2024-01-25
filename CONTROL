@@ -1,4 +1,4 @@
-19 01 30 23
+19 01 24 23
 1
 38.10484 -122.2454 1000
 -8
@@ -11,5 +11,5 @@ RP201812.gbl
 RP201901.gbl
 /home/donatello/Met/
 RP201902.gbl
-./
-traj--bwd-19-01-30-23-1lat_38p104841_lon_-122p245442-hgt_1000-8h
+/home/donatello/Rprojects/testtraj//
+traj--bwd-19-01-24-23-1lat_38p104841_lon_-122p245442-hgt_1000-8h

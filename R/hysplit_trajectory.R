@@ -741,7 +741,7 @@ if (get_os() == "win") {
         trajectory_read(output_folder =
                           paste0(out_dir, "/",
                                  folder_name))
-    p}
+    }
     
     if (z == 1) {
       col_names <- colnames(traj_df)

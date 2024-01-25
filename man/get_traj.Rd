@@ -46,7 +46,7 @@ data files}
 level)}
 }
 \value{
-a dataframe of interpolated HYSPLIT trajectory points
+A dataframe of interpolated HYSPLIT trajectory points.
 }
 \description{
 The function returns a data frame of interpolated HYSPLIT
