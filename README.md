@@ -1,6 +1,6 @@
 # testtraj
 
-This package requires libgfortran.so.3 and g++-6. Install using *bionic universe* on Ubuntu 20.04, and *not* the focal universe.
+This package requires libgfortran.so.3, which requires g++-6. Install g++-6 using *bionic main universe* on Ubuntu 20.04, and *not* the focal main universe.
 
 If experiencing issues with the get_traj() function, check that the following are true:
 

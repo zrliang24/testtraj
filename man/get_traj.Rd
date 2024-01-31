@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_traj.R
 \name{get_traj}
 \alias{get_traj}
-\title{Returns data frame of HYSPLIT trajectory runs}
+\title{Conducts interpolated HYSPLIT trajectory runs}
 \usage{
 get_traj(
   trajDate,
@@ -18,7 +18,7 @@ get_traj(
 )
 }
 \arguments{
-\item{trajDate}{character string of dates}
+\item{trajDate}{character string of dates in YYYY-MM-DD format}
 
 \item{dur}{the duration of each trajectory model run in hours}
 
@@ -34,10 +34,11 @@ or 'backward'}
 \item{Met}{an option to select meteorological data files. The options are
 gdas1 (Global Data Assimilation System 1-degree resolution data),
 reanalysis (NCAR/NCEP global reanalysis data), and narr (North American
-Regional Reanalysis).}
+Regional Reanalysis). Visit the NOAA meteorological data archives for more
+information (https://www.ready.noaa.gov/archives.php).}
 
-\item{ExecDir}{an optional file path for the working directory of the model
-input and output files.}
+\item{ExecDir}{an optional file path to the hyts_std executable file, if the
+hyts_std file is not in the working directory.}
 
 \item{MetDir}{an optional file path to store or find existing meteorological
 data files}
@@ -49,6 +50,9 @@ level)}
 A dataframe of interpolated HYSPLIT trajectory points.
 }
 \description{
-The function returns a data frame of interpolated HYSPLIT
-trajectories
+The function modifies the hysplit_trajectory() function from the
+SplitR package to return a data frame of interpolated HYSPLIT trajectories.
+This allows trajectory points to be interpolated down to 5 minute
+intervals, rather than
+every hour.
 }
