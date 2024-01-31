@@ -1,8 +1,11 @@
-#' Returns data frame of HYSPLIT trajectory runs
+#' Conducts interpolated HYSPLIT trajectory runs
 #'
-#' @description The function returns a data frame of interpolated HYSPLIT
-#'   trajectories
-#' @param trajDate character string of dates
+#' @description The function modifies the hysplit_trajectory() function from the
+#'   SplitR package to return a data frame of interpolated HYSPLIT trajectories.
+#'   This allows trajectory points to be interpolated down to 5 minute
+#'   intervals, rather than
+#'   every hour.
+#' @param trajDate character string of dates in YYYY-MM-DD format
 #' @param OutDir a file path to where the trajectory output files will be stored
 #' @param dur the duration of each trajectory model run in hours
 #' @param Lat the starting latitude (in decimal degrees)
@@ -12,16 +15,17 @@
 #' @param Met an option to select meteorological data files. The options are
 #'   gdas1 (Global Data Assimilation System 1-degree resolution data),
 #'   reanalysis (NCAR/NCEP global reanalysis data), and narr (North American
-#'   Regional Reanalysis).
+#'   Regional Reanalysis). Visit the NOAA meteorological data archives for more
+#'   information (https://www.ready.noaa.gov/archives.php).
 #' @param MetDir an optional file path to store or find existing meteorological
 #'   data files
-#' @param ExecDir an optional file path for the working directory of the model
-#'   input and output files. 
+#' @param ExecDir an optional file path to the hyts_std executable file, if the
+#'   hyts_std file is not in the working directory.
 #' @param ht the starting height for the model run (in meters above ground
 #'   level)
 #' @importFrom magrittr "%>%"
 #' @importFrom purrr map_dfr
-#' @returns A dataframe of interpolated HYSPLIT trajectory points. 
+#' @returns A dataframe of interpolated HYSPLIT trajectory points.
 #' @export
 
 get_traj <- function(trajDate,
@@ -57,8 +61,8 @@ get_traj <- function(trajDate,
     model_height = 20000)
   
   # Interpolate 5 min intervals using cubic.r and slopes.r
-  # Here, "date" is the date/time stamp of each unique
-  # trajectory, 24 trajectories per day
+  # Here, "date" is the date/time stamp of each unique trajectory, 24
+  # trajectories per day
   dataf <- unique(newtraj$date) %>%
     map_dfr(~ run_peter(., newtraj))
   
