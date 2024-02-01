@@ -72,11 +72,9 @@ Now, use the rasterize() function from the terra package to create a frequency p
 ```{r}
 # create coordiates matrix for rasterize function
 coords <- cbind(traj$lon, traj$lat)
-
 # generate frequency plot
 outputs <- rasterize(coords, trajgrid, fun = 'count')
 plot(outputs)
-
 # save as dataframe for future use
 saveRDS(as.data.frame(outputs, xy = T),
         '/home/donatello/Rprojects/freqDF')
