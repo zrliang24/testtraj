@@ -2,7 +2,7 @@
 title: "Create a frequency plot of interpolated trajectory points"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{my-vignette}
+  %\VignetteIndexEntry{Create a frequency plot of interpolated trajectory points}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -37,7 +37,7 @@ More often, you will generate trajectories for multiple dates at a time. To do s
 #   as.character()
 ```
 
-Then, using the map_dfr function from the purrr package, run the get_traj() function over each date you listed. Save the output dataframe as an RDS file for future use. 
+Using the map_dfr function from the purrr package, run the get_traj() function over each date you listed. Save the output dataframe as an RDS file for future use. 
 ```{r}
 # traj <- map_dfr(dates, ~get_traj(.,
 #                                  OutDir = 'home/donatello/Documents',
