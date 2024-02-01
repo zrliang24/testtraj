@@ -1,12 +1,12 @@
 ---
-title: "Create a visualization of a backwards trajectory"
+title: "Create a frequency plot of interpolated trajectory points"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{my-vignette}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-This vignette demonstrates how to use the get_traj() function to generate an interpolated backwards trajectory. 
+This vignette demonstrates how to use the get_traj() function to create a frequency plot of trajectory points. 
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -29,7 +29,7 @@ First, we will use the get_traj() function to create traj, a dataframe of trajec
 #                  ExecDir = '/home/donatello/Rprojects/testtraj/')
 ```
 
-More often, you will likely want to generate trajectories for multiple dates at a time. To do so, you can first create an object, dates, to contain your desired range of dates in character format. 
+More often, you will generate trajectories for multiple dates at a time. To do so, first create an object, dates, to contain your desired range of dates. Make sure the dates are in character format. 
 ```{r}
 # dates <- seq(as.Date('2019-02-01'),
 #              as.Date('2019-02-25'),
@@ -37,7 +37,7 @@ More often, you will likely want to generate trajectories for multiple dates at 
 #   as.character()
 ```
 
-Then, using the map_dfr function from the purrr package, you can run the get_traj() function over each date you listed. You can save the output dataframe as an RDS file for future use. 
+Then, using the map_dfr function from the purrr package, run the get_traj() function over each date you listed. Save the output dataframe as an RDS file for future use. 
 ```{r}
 # traj <- map_dfr(dates, ~get_traj(.,
 #                                  OutDir = 'home/donatello/Documents',
@@ -46,7 +46,7 @@ Then, using the map_dfr function from the purrr package, you can run the get_tra
 # saveRDS(traj, '/home/donatello/Rprojects/traj_example')
 ```
 
-The dataframe traj now contains the interpolated trajectory points. Using tools from tidyverse, I can filter the points down to my area of interest. 
+The dataframe traj now contains the interpolated trajectory points. Using tools from tidyverse, filter the points down to my area of interest. 
 ```{r}
 # read in trajectory data
 traj <- readRDS('/home/donatello/Rprojects/traj_example') %>%
@@ -57,7 +57,7 @@ traj <- readRDS('/home/donatello/Rprojects/traj_example') %>%
          lon <= -122.15)
 ```
 
-Then, using the terra package, I can create a blank grid to map the trajectories to. 
+Then, using the terra package, create a blank grid to map the trajectories to. 
 ```{r}
 # get extent
 trajExt <- cbind(traj$lon, traj$lat) %>%
@@ -68,7 +68,7 @@ trajgrid <- rast(trajExt,
                crs = '+proj=longlat +datum=WGS84')
 ```
 
-Now, I can use the rasterize() function from the terra package to create a frequency plot of the trajectory points. See the frequency_plot.png for the output. 
+Now, use the rasterize() function from the terra package to create a frequency plot of the trajectory points. See the frequency_plot.png in folder for the frequency plot.  
 ```{r}
 # create coordiates matrix for rasterize function
 coords <- cbind(traj$lon, traj$lat)
