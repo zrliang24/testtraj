@@ -49,7 +49,7 @@ Using the map_dfr function from the purrr package, run the get_traj() function o
 The dataframe traj now contains the interpolated trajectory points. Using tools from tidyverse, filter the points down to my area of interest. 
 ```{r}
 # read in trajectory data
-traj <- readRDS('/home/donatello/Rprojects/traj_example') %>%
+traj <- readRDS('/home/donatello/Rprojects/data/traj_example') %>%
   # filter for points within Vallejo boundaries
   filter(lat >= 38.0 &
          lat <= 38.2 &
@@ -77,6 +77,6 @@ outputs <- rasterize(coords, trajgrid, fun = 'count')
 plot(outputs)
 # save as dataframe for future use
 saveRDS(as.data.frame(outputs, xy = T),
-        '/home/donatello/Rprojects/freqDF')
+        '/home/donatello/Rprojects/data/freqDF')
 ```
 
