@@ -1,12 +1,12 @@
 ---
-title: "Create a visualization of a backwards trajectory"
+title: "Create a frequency plot of interpolated trajectory points"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{my-vignette}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-This vignette demonstrates how to use the get_traj() function to generate an interpolated backwards trajectory. 
+This vignette demonstrates how to use the get_traj() function to create a frequency plot of trajectory points. 
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -68,7 +68,7 @@ trajgrid <- rast(trajExt,
                crs = '+proj=longlat +datum=WGS84')
 ```
 
-Now, I can use the rasterize() function from the terra package to create a frequency plot of the trajectory points. See the frequency_plot.png for the output. 
+Now, I can use the rasterize() function from the terra package to create a frequency plot of the trajectory points. See the frequency_plot.png in folder for the frequency plot.  
 ```{r}
 # create coordiates matrix for rasterize function
 coords <- cbind(traj$lon, traj$lat)
