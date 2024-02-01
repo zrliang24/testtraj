@@ -50,9 +50,15 @@ level)}
 A dataframe of interpolated HYSPLIT trajectory points.
 }
 \description{
+<<<<<<< HEAD
 The function modifies the hysplit_trajectory() function from the
 SplitR package to return a data frame of interpolated HYSPLIT trajectories.
 This allows trajectory points to be interpolated down to 5 minute
 intervals, rather than
+=======
+The function modifies the hysplit_trajectory() function to
+return a data frame of interpolated HYSPLIT trajectories. This allows
+trajectory points to be interpolated down to 5 minute intervals, rather than
+>>>>>>> bd1afe791c0026f6ab9fb4153f293792d1c35a9d
 every hour.
 }

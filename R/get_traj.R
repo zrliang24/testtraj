@@ -3,7 +3,7 @@
 #' @description The function modifies the hysplit_trajectory() function from the
 #'   SplitR package to return a data frame of interpolated HYSPLIT trajectories.
 #'   This allows trajectory points to be interpolated down to 5 minute
-#'   intervals, rather than every hour.
+#'   intervals, rather than every hour. intervals, rather than every hour.
 #' @param trajDate character string of dates in YYYY-MM-DD format
 #' @param OutDir a file path to where the trajectory output files will be stored
 #' @param dur the duration of each trajectory model run in hours
