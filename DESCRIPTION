@@ -24,3 +24,7 @@ Imports:
     utils
 Depends: 
     tidyverse
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

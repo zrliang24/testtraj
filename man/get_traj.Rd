@@ -6,8 +6,8 @@
 \usage{
 get_traj(
   trajDate,
-  dur = 8,
   OutDir,
+  dur = 8,
   Lat = 38.104841,
   Lon = -122.245442,
   Dir = "backward",
@@ -20,9 +20,9 @@ get_traj(
 \arguments{
 \item{trajDate}{character string of dates in YYYY-MM-DD format}
 
-\item{dur}{the duration of each trajectory model run in hours}
-
 \item{OutDir}{a file path to where the trajectory output files will be stored}
+
+\item{dur}{the duration of each trajectory model run in hours}
 
 \item{Lat}{the starting latitude (in decimal degrees)}
 
@@ -50,15 +50,8 @@ level)}
 A dataframe of interpolated HYSPLIT trajectory points.
 }
 \description{
-<<<<<<< HEAD
 The function modifies the hysplit_trajectory() function from the
 SplitR package to return a data frame of interpolated HYSPLIT trajectories.
 This allows trajectory points to be interpolated down to 5 minute
-intervals, rather than
-=======
-The function modifies the hysplit_trajectory() function to
-return a data frame of interpolated HYSPLIT trajectories. This allows
-trajectory points to be interpolated down to 5 minute intervals, rather than
->>>>>>> bd1afe791c0026f6ab9fb4153f293792d1c35a9d
-every hour.
+intervals, rather than every hour.
 }
