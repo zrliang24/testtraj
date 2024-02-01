@@ -6,7 +6,7 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-This vignette demonstrates how to use the get_traj() function to create normalized frequency plots.
+This vignette demonstrates how to use the get_traj() function to create frequency plots.
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -76,7 +76,7 @@ coords <- cbind(traj$lon, traj$lat)
 outputs <- rasterize(coords, trajgrid, fun = 'count')
 plot(outputs)
 # save as dataframe for future use
-saveRDS(as.data.frame(outputs, xy = T),
-        '/home/donatello/Rprojects/data/freqDF')
+# saveRDS(as.data.frame(outputs, xy = T),
+#         '/home/donatello/Rprojects/data/freqDF')
 ```
 

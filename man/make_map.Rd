@@ -5,7 +5,7 @@
 \title{Creates a conditional frequency fraction map from a given region of Vallejo
 and statistic}
 \usage{
-make_map(region, statistic, buffer = 10, justmap = F)
+make_map(region, statistic, basemap, buffer = 10)
 }
 \arguments{
 \item{region}{Region of Vallejo. Options are: North, South, Downtown,
@@ -14,8 +14,6 @@ Foothills, Mare Island}
 \item{statistic}{Options are: Ninetieth, Fiftieth, Tenth, Mean}
 
 \item{buffer}{Fraction out of 100 to exclude.}
-
-\item{justmap}{Whether or not to print map. Default is false.}
 }
 \description{
 Creates a conditional frequency fraction map from a given region of Vallejo

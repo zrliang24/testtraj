@@ -5,11 +5,13 @@
 #'   Foothills, Mare Island
 #' @param statistic Options are: Ninetieth, Fiftieth, Tenth, Mean
 #' @param buffer Fraction out of 100 to exclude.
-#' @param justmap Whether or not to print map. Default is false. 
 #'
 #' @export
 #' 
-make_map <- function(region, statistic, buffer = 10, justmap = F) {
+make_map <- function(region, 
+                     statistic, 
+                     basemap,
+                     buffer = 10) {
   
   stats <- c('ninetieth',
              'fiftieth',
@@ -72,7 +74,7 @@ make_map <- function(region, statistic, buffer = 10, justmap = F) {
                                         statDF,
                                         remove.outliers = F)
   
-  outMap <- ggmap(vallejo) +
+  outMap <- ggmap(basemap) +
     tidyterra::geom_spatraster(mapping = aes(), 
                                data = cff, 
                                alpha = 0.5) +
@@ -81,9 +83,9 @@ make_map <- function(region, statistic, buffer = 10, justmap = F) {
          subtitle = paste('statistic:', statistic, '|',
                           'buffer:', buffer, '|',
                           'n =', nrow(trajAbr)))
-  if (justmap) {
-    print(outMap)
-  }
+  # if (justmap) {
+  #   print(outMap)
+  # }
   
   return(outMap)
   
