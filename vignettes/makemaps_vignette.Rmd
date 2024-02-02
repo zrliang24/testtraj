@@ -1,0 +1,61 @@
+---
+title: "Make normalized frequency plots by specified region and statistic"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Make normalized frequency plots by specified region and statistic}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+This vignette demonstrates how to use the make_map function to turn the trajectory frequency points into a normalized conditional frequency plot based on given region and statistic. This vignette builds off the information from the frequency plot vignette. For more information, see freqplot_vignette. 
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(testtraj)
+library(terra)
+library(ggmap)
+```
+
+First read in the data frame of trajectories generated from the get_traj() function. Create a blank grid and a coordinates matrix for mapping. For more information on how to use the get_traj() function, see the freqplot_vignette.
+```{r}
+traj <- readRDS('/home/donatello/Rprojects/data/traj_example') %>%
+  # filter for points within Vallejo boundaries
+  filter(lat >= 38.0 & # ymin
+           lat <= 38.2 & # ymax
+           lon >= -122.38 & # xmin
+           lon <= -122.15)
+
+# get extent
+trajExt <- cbind(traj$lon, traj$lat) %>%
+  ext()
+
+# create blank grid from extent
+trajgrid <- rast(trajExt, 
+                 resolution = 0.005, 
+                 crs = '+proj=longlat +datum=WGS84')
+
+# create coordiates matrix for rasterize function
+coords <- cbind(traj$lon, traj$lat)
+```
+
+For the next step, you will need a basemap and a data set containing measurements with associated datetimes, latlon coordinates, and region. The data set shown in this vignette contains PM data of regions in Vallejo. 
+```{r}
+# Vallejo basemap
+vallejo <- readRDS('/home/donatello/Rprojects/data/Vallejo_basemap.RDS')
+
+# PM Data
+siteDF <- readRDS('/home/donatello/Rprojects/data/pmData')
+```
+
+Now, use the make_map function to generate the conditional frequency map. See cff_plot.png for the full image.
+```{r}
+# make_map(region = 'Downtown',
+#          statistic = 'mean',
+#          basemap = vallejo,
+#          buffer = 10)
+```
+
