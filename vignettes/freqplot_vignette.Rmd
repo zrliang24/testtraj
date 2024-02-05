@@ -16,8 +16,8 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(testtraj)
-library(terra)
+# library(testtraj)
+# library(terra)
 ```
 Before you start, make sure that the package folder contains the hyts_std executable file. Check that the file has permissions to run as an executable. 
 
@@ -48,34 +48,34 @@ Using the map_dfr function from the purrr package, run the get_traj() function o
 
 The dataframe traj now contains the interpolated trajectory points. Using tools from tidyverse, filter the points down to my area of interest. 
 ```{r}
-# read in trajectory data
-traj <- readRDS('/home/donatello/Rprojects/data/traj_example') %>%
-  # filter for points within Vallejo boundaries
-  filter(lat >= 38.0 &
-         lat <= 38.2 &
-         lon >= -122.38 &
-         lon <= -122.15)
+# # read in trajectory data
+# traj <- readRDS('/home/donatello/Rprojects/data/traj_example') %>%
+#   # filter for points within Vallejo boundaries
+#   filter(lat >= 38.0 &
+#          lat <= 38.2 &
+#          lon >= -122.38 &
+#          lon <= -122.15)
 ```
 
 Then, using the terra package, create a blank grid to map the trajectories to. 
 ```{r}
-# get extent
-trajExt <- cbind(traj$lon, traj$lat) %>%
-  ext()
-# create blank grid from extent
-trajgrid <- rast(trajExt, 
-               resolution = 0.005, 
-               crs = '+proj=longlat +datum=WGS84')
+# # get extent
+# trajExt <- cbind(traj$lon, traj$lat) %>%
+#   ext()
+# # create blank grid from extent
+# trajgrid <- rast(trajExt,
+#                resolution = 0.005,
+#                crs = '+proj=longlat +datum=WGS84')
 ```
 
 Now, use the rasterize() function from the terra package to create a frequency plot of the trajectory points. See the frequency_plot.png in folder for the frequency plot.  
 ```{r}
-# create coordiates matrix for rasterize function
-coords <- cbind(traj$lon, traj$lat)
-# generate frequency plot
-outputs <- rasterize(coords, trajgrid, fun = 'count')
-plot(outputs)
-# save as dataframe for future use
+# # create coordiates matrix for rasterize function
+# coords <- cbind(traj$lon, traj$lat)
+# # generate frequency plot
+# outputs <- rasterize(coords, trajgrid, fun = 'count')
+# plot(outputs)
+# # save as dataframe for future use
 # saveRDS(as.data.frame(outputs, xy = T),
 #         '/home/donatello/Rprojects/data/freqDF')
 ```
