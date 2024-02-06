@@ -34,8 +34,8 @@ trajExt <- cbind(traj$lon, traj$lat) %>%
   ext()
 
 # create blank grid from extent
-trajgrid <- rast(trajExt, 
-                 resolution = 0.005, 
+trajgrid <- rast(trajExt,
+                 resolution = 0.005,
                  crs = '+proj=longlat +datum=WGS84')
 
 # create coordiates matrix for rasterize function
@@ -44,7 +44,7 @@ coords <- cbind(traj$lon, traj$lat)
 
 For the next step, you will need a basemap and a data set containing measurements with associated datetimes, latlon coordinates, and region. The data set shown in this vignette contains PM data of regions in Vallejo. 
 ```{r}
-# Vallejo basemap
+# # Vallejo basemap
 vallejo <- readRDS('/home/donatello/Rprojects/data/Vallejo_basemap.RDS')
 
 # PM Data
@@ -53,9 +53,9 @@ siteDF <- readRDS('/home/donatello/Rprojects/data/pmData')
 
 Now, use the make_map function to generate the conditional frequency map. See cff_plot.png for the full image.
 ```{r}
-# make_map(region = 'Downtown',
-#          statistic = 'mean',
-#          basemap = vallejo,
-#          buffer = 10)
+make_map(region = 'Downtown',
+         statistic = 'mean',
+         basemap = vallejo,
+         buffer = 10)
 ```
 

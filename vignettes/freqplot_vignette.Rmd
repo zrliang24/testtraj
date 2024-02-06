@@ -6,7 +6,15 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-This vignette demonstrates how to use the get_traj() function to create frequency plots.
+Zixuan Liang
+zrliang@ucdavis.edu
+2/5/2024
+
+The *testtraj* package was developed to identify sources of air pollution at a hyper local scale. While similar trajectory visualization tools exist, these tools can only be used to view trajectories at county level scales or larger. This package utilizes interpolation methods to estimate trajectory patterns at a scale that allows for the anlaysis of patterns within a single city. 
+
+This vignette demonstrates how to use *testtraj* to create a conditional frequency plot of particulate matter in Vallejo. 
+
+Before you begin, make sure that the package folder contains the **hyts_std** executable file. Check that the file has permissions to run as an executable. On Linux, find the **hyts_std** file and copy it into the package folder. Click on the Permissions tab and check the box to "Allow executing file as program."
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -16,20 +24,29 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-# library(testtraj)
-# library(terra)
+# library(testtraj) # used to generate the interpolated trajectories
+# library(terra) # provides necessary GIS tools
+# library(ggmap) # used to overlay trajectories onto maps
 ```
-Before you start, make sure that the package folder contains the hyts_std executable file. Check that the file has permissions to run as an executable. 
 
-First, we will use the get_traj() function to create traj, a dataframe of trajectory points. Here, I have set the output directory to store the generated trajectory files, the met directory to store the meteorological data files, and the executive directory to path to the hyst_std executable file. 
+First, we will use the *get_traj()* function to generate interpolated trajectories and store the points in *test*, a dataframe. This function will automatically download all necessary meteorological data files from the NOAA Air Resources Laboratory Archives if they are not found on your device. For the list of dates with data available for download, visit the [NOAA Air Resources Laboratory Data Archives] (https://www.ready.noaa.gov/archives.php). By default, *get_traj* will download the reanalysis data files, but this can be adjusted using the "Met" parameter. 
+
+Add a date in 'YYYY-MM-DD' character format for the trajDate parameter. Next, configure the directories:
+* Set the OutDir, or output directory, to a folder where the trajectory files will be generated. 
+* Set the MetDir, or meterological data directory, to a folder where meteorological data files will be stored. It is recommended that whenever using the testtraj package, this directory is set to a new folder outside of the testtraj package to reduce duplicate file downloads. 
+* Set the ExecDir, or executive directory, to the folder that has the **hyts_std** file. 
+
 ```{r}
-# traj <- get_traj(trajDate = '2019-06-01',
+# test <- get_traj(trajDate = '2019-06-01',
 #                  OutDir = '/home/donatello/Documents',
 #                  MetDir = '/home/donatello/Met',
 #                  ExecDir = '/home/donatello/Rprojects/testtraj/')
 ```
 
-More often, you will generate trajectories for multiple dates at a time. To do so, first create an object, dates, to contain your desired range of dates. Make sure the dates are in character format. 
+Add troubleshooting section
+
+More often, you will generate trajectories for multiple dates at a time. To do so, first create an object, dates, to contain your desired range of dates. Make sure the dates are in character format.
+
 ```{r}
 # dates <- seq(as.Date('2019-02-01'),
 #              as.Date('2019-02-25'),
@@ -37,7 +54,8 @@ More often, you will generate trajectories for multiple dates at a time. To do s
 #   as.character()
 ```
 
-Using the map_dfr function from the purrr package, run the get_traj() function over each date you listed. Save the output dataframe as an RDS file for future use. 
+Using the map_dfr function from the purrr package, run the get_traj() function over each date you listed. Save the output dataframe as an RDS file for future use.
+
 ```{r}
 # traj <- map_dfr(dates, ~get_traj(.,
 #                                  OutDir = 'home/donatello/Documents',
@@ -46,7 +64,8 @@ Using the map_dfr function from the purrr package, run the get_traj() function o
 # saveRDS(traj, '/home/donatello/Rprojects/traj_example')
 ```
 
-The dataframe traj now contains the interpolated trajectory points. Using tools from tidyverse, filter the points down to my area of interest. 
+The dataframe traj now contains the interpolated trajectory points. Using tools from tidyverse, filter the points down to my area of interest.
+
 ```{r}
 # # read in trajectory data
 # traj <- readRDS('/home/donatello/Rprojects/data/traj_example') %>%
@@ -57,18 +76,25 @@ The dataframe traj now contains the interpolated trajectory points. Using tools 
 #          lon <= -122.15)
 ```
 
-Then, using the terra package, create a blank grid to map the trajectories to. 
+Now that the points have been filtered down to the specified area, use the terra package to get the extent of the area.
+
 ```{r}
 # # get extent
 # trajExt <- cbind(traj$lon, traj$lat) %>%
 #   ext()
+```
+
+Using the extent, create a blank raster grid using the rast() function from the terra package. Depending on the scale of the trajectories, adjust the resolution. Increasing the resolution parameter will
+
+```{r}
 # # create blank grid from extent
 # trajgrid <- rast(trajExt,
 #                resolution = 0.005,
 #                crs = '+proj=longlat +datum=WGS84')
 ```
 
-Now, use the rasterize() function from the terra package to create a frequency plot of the trajectory points. See the frequency_plot.png in folder for the frequency plot.  
+Now, use the rasterize() function from the terra package to create a frequency plot of the trajectory points. See the frequency_plot.png in folder for the frequency plot.
+
 ```{r}
 # # create coordiates matrix for rasterize function
 # coords <- cbind(traj$lon, traj$lat)
@@ -77,6 +103,46 @@ Now, use the rasterize() function from the terra package to create a frequency p
 # plot(outputs)
 # # save as dataframe for future use
 # saveRDS(as.data.frame(outputs, xy = T),
-#         '/home/donatello/Rprojects/data/freqDF')
+#         '/home/donatello/Rprojects/data/freqDF') 
+```
+
+
+First read in the data frame of trajectories generated from the get_traj() function. Create a blank grid and a coordinates matrix for mapping. For more information on how to use the get_traj() function, see the freqplot_vignette.
+```{r}
+# traj <- readRDS('/home/donatello/Rprojects/data/traj_example') %>%
+#   # filter for points within Vallejo boundaries
+#   filter(lat >= 38.0 & # ymin
+#            lat <= 38.2 & # ymax
+#            lon >= -122.38 & # xmin
+#            lon <= -122.15)
+# 
+# # get extent
+# trajExt <- cbind(traj$lon, traj$lat) %>%
+#   ext()
+# 
+# # create blank grid from extent
+# trajgrid <- rast(trajExt,
+#                  resolution = 0.005,
+#                  crs = '+proj=longlat +datum=WGS84')
+# 
+# # create coordiates matrix for rasterize function
+# coords <- cbind(traj$lon, traj$lat)
+```
+
+For the next step, you will need a basemap and a data set containing measurements with associated datetimes, latlon coordinates, and region. The data set shown in this vignette contains PM data of regions in Vallejo. 
+```{r}
+# # # Vallejo basemap
+# vallejo <- readRDS('/home/donatello/Rprojects/data/Vallejo_basemap.RDS')
+# 
+# # PM Data
+# siteDF <- readRDS('/home/donatello/Rprojects/data/pmData')
+```
+
+Now, use the make_map function to generate the conditional frequency map. See cff_plot.png for the full image.
+```{r}
+# make_map(region = 'Downtown',
+#          statistic = 'mean',
+#          basemap = vallejo,
+#          buffer = 10)
 ```
 
