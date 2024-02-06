@@ -31,10 +31,13 @@ knitr::opts_chunk$set(
 
 First, we will use the *get_traj()* function to generate interpolated trajectories and store the points in *test*, a dataframe. This function will automatically download all necessary meteorological data files from the NOAA Air Resources Laboratory Archives if they are not found on your device. For the list of dates with data available for download, visit the [NOAA Air Resources Laboratory Data Archives] (https://www.ready.noaa.gov/archives.php). By default, *get_traj* will download the reanalysis data files, but this can be adjusted using the "Met" parameter. 
 
-Add a date in 'YYYY-MM-DD' character format for the trajDate parameter. Next, configure the directories:
+Add a date in 'YYYY-MM-DD' character format for the trajDate parameter. 
+
+Next, configure the directories:
 * Set the OutDir, or output directory, to a folder where the trajectory files will be generated. 
 * Set the MetDir, or meterological data directory, to a folder where meteorological data files will be stored. It is recommended that whenever using the testtraj package, this directory is set to a new folder outside of the testtraj package to reduce duplicate file downloads. 
-* Set the ExecDir, or executive directory, to the folder that has the **hyts_std** file. 
+* Set the ExecDir, or executive directory, to the folder that has the **hyts_std** file. In *get_traj()*, the default for the ExecDir is your working directory. However, this executable file is essential for downloading the data correctly, so it is recommended to set this path manually. 
+Change file paths based on operating system. 
 
 ```{r}
 # test <- get_traj(trajDate = '2019-06-01',
