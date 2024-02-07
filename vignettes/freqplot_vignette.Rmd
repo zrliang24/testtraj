@@ -48,7 +48,7 @@ Next, configure the directories:
 #                  ExecDir = '/home/donatello/Rprojects/testtraj/')
 ```
 
-Add a troubleshooting section?
+Add a troubleshooting section
 
 More often, you will generate trajectories for multiple dates at a time. To do so, first create an object, dates, to contain your desired range of dates. Make sure the dates are in character format.
 
