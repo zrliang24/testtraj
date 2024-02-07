@@ -13,6 +13,8 @@ Foothills, Mare Island}
 
 \item{statistic}{Options are: Ninetieth, Fiftieth, Tenth, Mean}
 
+\item{basemap}{ggmap basemap}
+
 \item{buffer}{Fraction out of 100 to exclude.}
 }
 \description{

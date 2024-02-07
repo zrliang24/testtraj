@@ -91,3 +91,28 @@ make_map <- function(region,
   return(outMap)
   
 }
+
+make_more_maps <- function(regions, 
+                           statistics, 
+                           basemap,
+                           buffer = 10) {
+  
+  maps <- c()
+  
+  for (region in regions) {
+    
+    for (statistic in statistics) {
+      
+      # Generate map name
+      map_name <- paste0(region, '_', statistic, '_', buffer)
+      maps <- c(maps, map_name)
+      
+      # use assign() to dynamically name each region and stat
+      assign(x = paste0(region, '_', statistic, '_', buffer),
+             value = make_map(region, statistic, basemap, buffer),
+             envir = .GlobalEnv)
+    }
+  }
+  
+  return(maps)
+}
