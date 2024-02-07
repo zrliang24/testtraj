@@ -92,6 +92,16 @@ make_map <- function(region,
   
 }
 
+#' Creates multiple conditional frequency fraction maps 
+#'
+#' @param regions Regions of Vallejo. Options are: North, South, Downtown,
+#'   Foothills, Mare Island
+#' @param statistics Options are: Ninetieth, Fiftieth, Tenth, Mean
+#' @param basemap ggmap basemap
+#' @param buffer Fraction out of 100 to exclude.
+#'
+#' @export
+
 make_more_maps <- function(regions, 
                            statistics, 
                            basemap,
