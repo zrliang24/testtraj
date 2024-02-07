@@ -1,15 +1,15 @@
 ---
-title: "Create a frequency plot of interpolated trajectory points"
+title: "Create a conditional frequency plot of interpolated trajectory points"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Create a frequency plot of interpolated trajectory points}
+  %\VignetteIndexEntry{Create a conditional frequency plot of interpolated trajectory points}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
 Zixuan Liang\
 [zrliang\@ucdavis.edu](mailto:zrliang@ucdavis.edu){.email}\
-2/5/2024
+2/7/2024
 
 The *testtraj* package was developed to identify sources of air pollution at a hyper local scale. While similar trajectory visualization tools exist, these tools can only be used to view trajectories at county level scales or larger. This package utilizes interpolation methods to estimate trajectory patterns at a scale that allows for the anlaysis of patterns within a single city. This vignette demonstrates how to use *testtraj* to create a conditional frequency plot of particulate matter in Vallejo.
 
@@ -98,8 +98,7 @@ Using the extent, create a blank raster grid using *rast()* from the *terra* pac
 #                crs = '+proj=longlat +datum=WGS84')
 ```
 
-Now, use the *rasterize()* function from the terra package to create a frequency plot of the trajectory points. This function will count the number of times that each trajectory passes over each grid cell.  ![](/home/donatello/Rprojects/testtraj/vignettes/frequency_plot.png)
-
+Now, use the *rasterize()* function from the terra package to create a frequency plot of the trajectory points. This function will count the number of times that each trajectory passes over each grid cell.  
 ```{r}
 # # create coordiates matrix for rasterize function
 # coords <- cbind(traj$lon, traj$lat)
@@ -107,11 +106,11 @@ Now, use the *rasterize()* function from the terra package to create a frequency
 # outputs <- rasterize(coords, trajgrid, fun = 'count')
 # plot(outputs)
 ```
+![](./frequency_plot.png)
 
-For the next step, you will need a basemap and a dataset containing measurements with associated dates, times, coordinates, and regions. The basemap used below is downloaded using the *ggmap* package. You will need an API key to download a *ggmap* basemap. Learn more about the *ggmap* basemaps [here](https://rdrr.io/cran/ggmap/man/get_map.html)
+Next, we will be making a conditional frequency map, which displays the trajectory points where there were significant measurements of PM. Currently, this feature of *testtraj* is specific to Vallejo.
 
-
-For the next step, you will need a basemap and a data set containing measurements with associated datetimes, latlon coordinates, and region. The data set shown in this vignette contains PM data of regions in Vallejo.
+You will need a basemap and a dataset.  At minimum, the dataset needs to include air quality measurements and the associated dates, times, coordinates, and region of Vallejo for each measurement. The PM data set used below contains particulate matter data downloaded from PurpleAir. The basemap used below is downloaded using the *ggmap* package. Learn more about downloading *ggmap* basemaps [here](https://rdrr.io/cran/ggmap/man/get_map.html).   
 
 ```{r}
 # # # Vallejo basemap downloaded from the ggmap package
@@ -121,11 +120,25 @@ For the next step, you will need a basemap and a data set containing measurement
 # siteDF <- readRDS('/home/donatello/Rprojects/data/pmData')
 ```
 
-Now, use the make_map function to generate the conditional frequency map. See cff_plot.png for the full image.
-
+Now, use the *make_map()* function to generate the conditional frequency map.
 ```{r}
 # make_map(region = 'Downtown',
 #          statistic = 'mean',
 #          basemap = vallejo,
 #          buffer = 10)
 ```
+![](./cff_plot.png)
+
+There is also the option to make multiple maps with varying statistics and regions using the *make_more_maps* function. 
+```{r}
+# # create vectors of the regions and statistics you want
+# regs <- c('Downtown', 'South')
+# stats <- c('mean', 'tenth')
+# # use the make_more_maps() function
+# maps <- make_more_maps(regs, stats, vallejo)
+# # use cowplot to create a grid of plots
+# cowplot::plot_grid(plotlist = mget(maps),
+#                    nrow = 2,
+#                    ncol = 2)
+```
+![](./many_maps.png)
