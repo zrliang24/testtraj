@@ -48,15 +48,16 @@ Next, configure the directories:
 ```
 
 ### Troubleshooting
+
 -   Binary path error:
-    -   Check that libgfortran.so.3 is installed. 
+    -   Check that libgfortran.so.3 is installed.
     -   Locate the **hyts_std** file and ensure that the ExecDir paths to its folder.
     -   Make sure the **hyts_std** file has permissions to execute as a program.
 -   Error in as.POSIXlt.character:
-    -   One of the dates may not have data available. Check the [NOAA Air Resources Laboratory Data Archives](https://www.ready.noaa.gov/archives.php) for a list of dates that are available for download. 
+    -   One of the dates may not have data available. Check the [NOAA Air Resources Laboratory Data Archives](https://www.ready.noaa.gov/archives.php) for a list of dates that are available for download.
 -   Error in 'hysplit_trajectory(), object 'run_type' not found
-    -   Make sure that the your input to the trajDate parameters is in the the 'YYYY-MM-DD' format 
-    -   Check that your input is a character string or a list of character strings, and NOT date format. 
+    -   Make sure that the your input to the trajDate parameters is in the the 'YYYY-MM-DD' format
+    -   Check that your input is a character string or a list of character strings, and NOT date format.
 
 More often, you will generate trajectories for multiple dates at a time. To do so, first create an object, dates, to contain your desired range of dates. Make sure the dates are in character format.
 
