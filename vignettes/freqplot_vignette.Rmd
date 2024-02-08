@@ -11,6 +11,8 @@ Zixuan Liang\
 [zrliang\@ucdavis.edu](mailto:zrliang@ucdavis.edu){.email}\
 2/8/2024
 
+## testtraj package
+
 The *testtraj* package was developed to identify sources of air pollution at a hyper local scale. While similar trajectory visualization tools exist, these tools can only be used to view trajectories at county level scales or larger. This package utilizes interpolation methods to estimate trajectory patterns at a scale that allows for the anlaysis of patterns within a single city. This vignette demonstrates how to use *testtraj* to create a conditional frequency plot of particulate matter in Vallejo.
 
 Before you begin:
@@ -43,6 +45,8 @@ knitr::opts_chunk$set(
 # # onto maps
 ```
 
+## get_traj()
+
 First, we will use the *get_traj()* function to generate interpolated trajectories and store the points in *test*, a dataframe. This function will automatically download all necessary meteorological data files from the NOAA Air Resources Laboratory Archives if they are not found on your device. For the list of dates with data available for download, visit the [NOAA Air Resources Laboratory Data Archives](https://www.ready.noaa.gov/archives.php). By default, *get_traj* will download the reanalysis data files, but this can be adjusted using the [Met] parameter.
 
 Add a date in 'YYYY-MM-DD' character format for the [trajDate] parameter.
@@ -73,6 +77,8 @@ Next, configure the directories:
 -   Error in *hysplit_trajectory()*, object 'run_type' not found
     -   Make sure that the your input to the trajDate parameters is in the the 'YYYY-MM-DD' format
     -   Check that your input is a character string or a list of character strings, and NOT date format.
+
+## Creating trajectory plots
 
 More often, you will generate trajectories for multiple dates at a time. To do so, first create an object, dates, to contain your desired range of dates. Make sure the dates are in character format.
 
