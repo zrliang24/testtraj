@@ -13,7 +13,19 @@ Zixuan Liang\
 
 The *testtraj* package was developed to identify sources of air pollution at a hyper local scale. While similar trajectory visualization tools exist, these tools can only be used to view trajectories at county level scales or larger. This package utilizes interpolation methods to estimate trajectory patterns at a scale that allows for the anlaysis of patterns within a single city. This vignette demonstrates how to use *testtraj* to create a conditional frequency plot of particulate matter in Vallejo.
 
-Before you begin, make sure that the package folder contains the **hyts_std** executable file. Check that the file has permissions to run as an executable. On Linux, find **hyts_std** and copy it into the package folder. Click on the Permissions tab and check the box to "Allow executing file as program."
+Before you begin:
+
+-   Make sure that the package folder contains the **hyts_std** executable file. Check that the file has permissions to run as an executable. On Linux, find **hyts_std** and copy it into the package folder. Click on the Permissions tab and check the box to "Allow executing file as program."
+
+-   Install *libgfortran3*. Note that *libgfortran3* requires Ubuntu20. To check whether *libgfortran3* is installed, use the terminal command `dpkg -S libgfortran3`. To install libgfortran3 on Linux, add a temporary repository to the bionic main universe.
+
+    -   `apt http://archive.ubuntu.com/ubuntu/ bionic main universe`.
+
+    -   `sudo apt update`
+
+    -   `sudo apt install g++-6`
+
+    -   `sudo apt install libgfortran3`.
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -23,9 +35,12 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-# library(testtraj) # Used to generate the interpolated trajectories. Also automatically loads in the tidyverse package for its data analysis tools. 
-# library(terra) # provides necessary GIS tools
-# library(ggmap) # used to overlay trajectories onto maps
+# library(testtraj)
+# # Used to generate the interpolated trajectories. Also automatically loads in
+# # the tidyverse package for its data analysis tools.
+# library(terra) 
+# # provides necessary GIS tools library(ggmap) # used to overlay trajectories
+# # onto maps
 ```
 
 First, we will use the *get_traj()* function to generate interpolated trajectories and store the points in *test*, a dataframe. This function will automatically download all necessary meteorological data files from the NOAA Air Resources Laboratory Archives if they are not found on your device. For the list of dates with data available for download, visit the [NOAA Air Resources Laboratory Data Archives](https://www.ready.noaa.gov/archives.php). By default, *get_traj* will download the reanalysis data files, but this can be adjusted using the [Met] parameter.
@@ -50,12 +65,12 @@ Next, configure the directories:
 ### Troubleshooting
 
 -   Binary path error:
-    -   Check that libgfortran.so.3 is installed.
+    -   Check that *libgfortran.so.3* is installed. For further instructions, see the notes at the top of this vignette.
     -   Locate the **hyts_std** file and ensure that the ExecDir paths to its folder.
     -   Make sure the **hyts_std** file has permissions to execute as a program.
 -   Error in as.POSIXlt.character:
     -   One of the dates may not have data available. Check the [NOAA Air Resources Laboratory Data Archives](https://www.ready.noaa.gov/archives.php) for a list of dates that are available for download.
--   Error in 'hysplit_trajectory(), object 'run_type' not found
+-   Error in *hysplit_trajectory()*, object 'run_type' not found
     -   Make sure that the your input to the trajDate parameters is in the the 'YYYY-MM-DD' format
     -   Check that your input is a character string or a list of character strings, and NOT date format.
 
@@ -122,18 +137,25 @@ Now, use the *rasterize()* function from the terra package to create a frequency
 # plot(outputs)
 ```
 
-![](./frequency_plot.png)
+![](./frequency_plot.png) Next, we will be making a conditional frequency map, which displays the trajectory points where there were significant measurements of PM. To do this, you will need a dataset. At minimum, the data set needs to include air quality measurements and the associated dates, times, and coordinates for each measurement.
 
-Next, we will be making a conditional frequency map, which displays the trajectory points where there were significant measurements of PM. Currently, this feature of *testtraj* is specific to Vallejo.
+```{r}
+# # read in PM dataset
+# siteDF <- readRDS('/home/donatello/Rprojects/data/pmData')
 
-You will need a basemap and a dataset. At minimum, the dataset needs to include air quality measurements and the associated dates, times, coordinates, and region of Vallejo for each measurement. The PM data set used below contains particulate matter data downloaded from PurpleAir. The basemap used below is downloaded using the *ggmap* package. Learn more about downloading *ggmap* basemaps [here](https://rdrr.io/cran/ggmap/man/get_map.html).
+# cff <- conditional_frequency_fraction(traj, coords, trajgrid, siteDF)
+# plot(cff)
+```
+
+![](./cff_blank.png)
+
+To better visualize this, we can overlay this conditional frequency map on top of a basemap. Currently, this feature of *testtraj* is specific to Vallejo.
+
+You will need a *ggmap* basemap and a dataset. At minimum, the data set needs to include air quality measurements and the associated dates, times, coordinates, and region of Vallejo for each measurement. The PM data set used below contains particulate matter data downloaded from PurpleAir. The basemap used below is downloaded using the *ggmap* package. Learn more about downloading *ggmap* basemaps [here](https://rdrr.io/cran/ggmap/man/get_map.html).
 
 ```{r}
 # # # Vallejo basemap downloaded from the ggmap package
 # vallejo <- readRDS('/home/donatello/Rprojects/data/Vallejo_basemap.RDS')
-# 
-# # PM Data
-# siteDF <- readRDS('/home/donatello/Rprojects/data/pmData')
 ```
 
 Now, use the *make_map()* function to generate the conditional frequency map.
@@ -141,7 +163,7 @@ Now, use the *make_map()* function to generate the conditional frequency map.
 ```{r}
 # make_map(region = 'Downtown',
 #          statistic = 'mean',
-#          basemap = vallejo,
+#          basemap = vallejo, # must be a ggmap basemap
 #          buffer = 10)
 ```
 
@@ -161,4 +183,4 @@ There is also the option to make multiple maps with varying statistics and regio
 #                    ncol = 2)
 ```
 
-![](./many_maps.png)
+![](./many_maps.png){width="1000"}
